@@ -1,18 +1,18 @@
 import cv2
-
+import numpy as np
 
 class FaceDetector():
-    def __init__(self, camera_port, cascade_path="/anaconda3/pkgs/opencv3-3.1.0-py35_0/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml"):
+    def __init__(self, camera_port, cascade_path="./haarcascades/haarcascade_frontalface_alt2.xml"):
         self.capture = cv2.VideoCapture(camera_port)
         self.cascade = cv2.CascadeClassifier(cascade_path)
 
     def detecting(self):
-        _, frame = capture.read()
+        _, frame = self.capture.read()
         height, width, channels = frame.shape[:3]
         frame_crop = np.zeros((height, width, channels), np.uint8)
 
         # 顔検出
-        faces = cascade.detectMultiScale(frame, scaleFactor=1.2, minNeighbors=2, minSize=(10,10))
+        faces = self.cascade.detectMultiScale(frame)
 
         if len(faces) ==  0:
             print('no face')
