@@ -1,5 +1,4 @@
-#Lambda内に実装した関数
-# S3のpakuty-mujin-backetにファイル(画像を想定)が保存されるとRekognitionのコレクションに顔情報を追加する
+
 import json
 import urllib.parse
 import boto3
@@ -18,5 +17,5 @@ def lambda_handler(event, context):
 
     response = client.index_faces(CollectionId = collectionId,
                                   Image = {'S3Object':{'Bucket':bucket, 'Name':key}},
-                                  ExternalImageId = key,
+                                  ExternalImageId = key.strip("RegistImage/"),
                                   DetectionAttributes = ['ALL'])
