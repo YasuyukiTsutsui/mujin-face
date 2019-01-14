@@ -1,4 +1,5 @@
 import cv2
+import boto3
 import numpy as np
 
 class FaceDetector():
@@ -37,3 +38,23 @@ class FaceDetector():
         face = faces[max_size_face_id]
         face_img = frame[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
         return face_img
+
+
+class FaceRecognizer():
+    def __init__(self, bucket_name, collection_id, face_match_threshold=80, max_faces=1, region='us-east-2'):
+        self.bucket_name = bucket_name
+        self.collection_id = collection_id
+        self.face_match_threshold = face_match_threshold
+        self.max_faces = max_faces
+        self.rekognition = boto3.client('rekognition', region)
+
+    def recognizing(self, img_path):
+        face_img_byte = None
+        with open(img_path, 'rb') as f:
+            face_img_byte = bytearray(f.read())
+
+        response = self.rekognition.search_faces_by_image(CollectionId=self.collection_id,
+                                               FaceMatchThreshold=self.face_match_threshold,
+                                               Image={'Bytes':face_img_byte},
+                                               MaxFaces=self.max_faces)
+        return response
