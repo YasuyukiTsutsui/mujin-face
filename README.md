@@ -18,7 +18,7 @@ $ docker build -t mujin-face .
 
 3. コンテナ立ち上げ  
 ``` .sourceCode .shell
-$ docker run -it -v $(pwd):/app -p 5000:5000 mujin-face python app.py
+$ docker run -it -v $(pwd):/app -p 5001:5000 mujin-face python app.py
 ```  
 
 4. ローカルホストに接続  
