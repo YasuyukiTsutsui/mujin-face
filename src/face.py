@@ -6,10 +6,11 @@ class FaceDetector():
         self.capture = cv2.VideoCapture(camera_port)
         self.cascade = cv2.CascadeClassifier(cascade_path)
 
-    def detecting(self):
-        _, frame = self.capture.read()
-        height, width, channels = frame.shape[:3]
-        frame_crop = np.zeros((height, width, channels), np.uint8)
+    def detecting(self, frame=None):
+        if frame is None:
+            _, frame = self.capture.read()
+            height, width, channels = frame.shape[:3]
+            frame_crop = np.zeros((height, width, channels), np.uint8)
 
         # 顔検出
         faces = self.cascade.detectMultiScale(frame)
