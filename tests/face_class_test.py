@@ -10,13 +10,9 @@ from src import FaceRecognizer
 from src import Storage
 
 CAMERA_PORT = 0
-<<<<<<< HEAD
-fd = FaceDetector(CAMERA_PORT)
-=======
 CASCADE = "./src/haarcascades/haarcascade_frontalface_alt2.xml"
 
-face_detector = FaceDetector(CAMERA_PORT, cascade_path=CASCADE)
->>>>>>> db6c8116d6ceca1707105ec2fd530741b7c92ac3
+fd = FaceDetector(CAMERA_PORT, cascade_path=CASCADE)
 
 class FaceClassTest(unittest.TestCase):
     # 0行列(顔なし)から顔検出をして
@@ -31,7 +27,7 @@ class FaceClassTest(unittest.TestCase):
 
     def test_capturing(self):
         with self.assertNotRaises(cv2.error):
-            detected_face = face_detector.detecting()
+            detected_face = fd.detecting()
 
     @contextmanager
     def assertNotRaises(self, exc_type):
@@ -39,3 +35,9 @@ class FaceClassTest(unittest.TestCase):
             yield None
         except exc_type:
             raise self.failureException('{} raised'.format(exc_type.__name__))
+
+    def test_storage_update(self):
+        self.s3_bucket = boto3.resource('s3').Bucket("pakuty-mujin-backet")
+        self.s3_bucket.upload_file('./tests/test.txt', 'test.txt')
+        self.s3_bucket.download_file('test.txt', './tests/test_a.txt')
+        self.assertEqual(open('./tests/test.txt').read(),open('./tests/test_a.txt').read())

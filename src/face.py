@@ -3,7 +3,7 @@ import boto3
 import numpy as np
 
 class FaceDetector():
-    def __init__(self, camera_port, cascade_path='./src/haarcascades/haarcascade_frontalface_alt2.xml'):
+    def __init__(self, camera_port, cascade_path='./haarcascades/haarcascade_frontalface_alt2.xml'):
         self.capture = cv2.VideoCapture(camera_port)
         self.cascade = cv2.CascadeClassifier(cascade_path)
 
