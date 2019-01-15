@@ -1,6 +1,10 @@
 import cv2
 import boto3
 import numpy as np
+from logging import getLogger
+
+
+logger = getLogger(__name__)
 
 class FaceDetector():
     def __init__(self, camera_port, cascade_path="./haarcascades/haarcascade_frontalface_alt2.xml"):
