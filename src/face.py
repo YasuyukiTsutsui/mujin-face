@@ -3,7 +3,7 @@ import boto3
 import numpy as np
 
 class FaceDetector():
-    def __init__(self, camera_port, cascade_path="./haarcascades/haarcascade_frontalface_alt2.xml"):
+    def __init__(self, camera_port, cascade_path='./src/haarcascades/haarcascade_frontalface_alt2.xml'):
         self.capture = cv2.VideoCapture(camera_port)
         self.cascade = cv2.CascadeClassifier(cascade_path)
 
@@ -22,7 +22,6 @@ class FaceDetector():
             return None
 
         # 大きく写っている顔のみを抽出
-
         # 顔の縦横のサイズの合計がもっとも大きい顔を
         # 大きく写っている顔とする
         max_face_size = -1
@@ -41,8 +40,7 @@ class FaceDetector():
 
 
 class FaceRecognizer():
-    def __init__(self, bucket_name, collection_id, face_match_threshold=80, max_faces=1, region='us-east-2'):
-        self.bucket_name = bucket_name
+    def __init__(self, collection_id, face_match_threshold=80, max_faces=1, region='us-east-2'):
         self.collection_id = collection_id
         self.face_match_threshold = face_match_threshold
         self.max_faces = max_faces
