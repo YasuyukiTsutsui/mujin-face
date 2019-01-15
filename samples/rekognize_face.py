@@ -10,6 +10,7 @@ if __name__ == "__main__":
     face_img = args[1]
 
     f = open(face_img, "rb")
+    #with open(face_img) as f:
     face_img_byte = bytearray(f.read())
     collectionId = 'sample'
 

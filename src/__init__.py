@@ -1,1 +1,1 @@
-from .face import FaceDetector
+from .face import FaceDetector, FaceRecognizer
