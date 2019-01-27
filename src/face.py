@@ -2,8 +2,12 @@ import cv2
 import boto3
 import numpy as np
 
+from src.log import Logger
+
+logger = Logger()
+
 class FaceDetector():
-    def __init__(self, camera_port, cascade_path="./haarcascades/haarcascade_frontalface_alt2.xml"):
+    def __init__(self, camera_port, cascade_path="./src/haarcascades/haarcascade_frontalface_alt2.xml"):
         self.capture = cv2.VideoCapture(camera_port)
         self.cascade = cv2.CascadeClassifier(cascade_path)
 
@@ -18,7 +22,7 @@ class FaceDetector():
 
         # 顔がなかった場合
         if len(faces) ==  0:
-            print('no face')
+            logger.info('cannot capture faces')
             return None
 
         # 大きく写っている顔のみを抽出
@@ -37,6 +41,7 @@ class FaceDetector():
         # 大きく写っている顔を切り取る
         face = faces[max_size_face_id]
         face_img = frame[face[1]:face[1]+face[3], face[0]:face[0]+face[2]]
+        logger.info('could capture face (x: {}, y: {}, x_size: {}, y_size: {})'.format(face[0], face[1], face[2], face[3]))
         return face_img
 
 
