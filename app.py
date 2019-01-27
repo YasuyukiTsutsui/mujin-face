@@ -1,3 +1,4 @@
+import os
 import cv2
 import tempfile
 
@@ -9,10 +10,12 @@ CAMERA_PORT = 0
 S3_BUCKET_NAME = 'pakuty-mujin-backet'
 COLLECTION_ID = 'sample'
 CASCADE_PATH = './src/haarcascades/haarcascade_frontalface_alt2.xml'
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
 app = Flask(__name__)
 face_detector = FaceDetector(CAMERA_PORT, CASCADE_PATH)
-face_recognizer = FaceRecognizer(S3_BUCKET_NAME, COLLECTION_ID)
+face_recognizer = FaceRecognizer(S3_BUCKET_NAME, COLLECTION_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
 @app.route('/recognize')
 def main():
