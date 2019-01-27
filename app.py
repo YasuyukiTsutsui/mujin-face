@@ -17,7 +17,7 @@ app = Flask(__name__)
 face_detector = FaceDetector(CAMERA_PORT, CASCADE_PATH)
 face_recognizer = FaceRecognizer(S3_BUCKET_NAME, COLLECTION_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
-@app.route('/recognize')
+@app.route('/')
 def main():
     # 顔の検出と切り取り
     face_img = face_detector.detecting()
