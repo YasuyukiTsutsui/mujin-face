@@ -3,7 +3,7 @@ import cv2
 import json
 import tempfile
 
-from src import FaceDetector, FaceRecognizer
+from src import FaceDetector, FaceRecognizer, Logger
 from flask import Flask, Response, request, stream_with_context
 
 
@@ -18,6 +18,8 @@ app = Flask(__name__)
 face_detector = FaceDetector(CAMERA_PORT, CASCADE_PATH)
 face_recognizer = FaceRecognizer(S3_BUCKET_NAME, COLLECTION_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
+logger = Logger()
+
 @app.route('/')
 def main():
     # 顔の検出と切り取り
@@ -28,6 +30,7 @@ def main():
             face_img = face_detector.detecting()
             if face_img is not None:
                 break
+        logger.info('detected face')
 
         # 一時ファイルとして保存
         named_temporary_file = tempfile.NamedTemporaryFile()
@@ -37,6 +40,8 @@ def main():
 
         # 顔を識別する
         recognize_response = face_recognizer.recognizing(named_temporary_file_name)
+
+        logger.info('get aws recognition response {}'.format(json.dumps(recognize_response)))
 
         # レスポンス作成
         yield json.dumps(recognize_response)
