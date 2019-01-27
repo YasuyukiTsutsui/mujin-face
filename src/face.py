@@ -46,12 +46,12 @@ class FaceDetector():
 
 
 class FaceRecognizer():
-    def __init__(self, bucket_name, collection_id, face_match_threshold=80, max_faces=1, region='us-east-2'):
+    def __init__(self, bucket_name, collection_id, aws_access_key_id, aws_secret_access_key, face_match_threshold=80, max_faces=1, region='us-east-2'):
         self.bucket_name = bucket_name
         self.collection_id = collection_id
         self.face_match_threshold = face_match_threshold
         self.max_faces = max_faces
-        self.rekognition = boto3.client('rekognition', region)
+        self.rekognition = boto3.client('rekognition', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name=region)
 
     def recognizing(self, img_path):
         face_img_byte = None
